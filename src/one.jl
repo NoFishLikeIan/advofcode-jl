@@ -2,16 +2,27 @@ using DelimitedFiles
 
 inputs = readdlm("src/files/dayoneinput.txt", '\n', Int)
 
-function sumto(arr::Array{Int}, M::Int)::Int
+"""
+Checks if (T + 1) numbers in arr sum to M and returns their product
+"""
+function sumto(arr::Array{Int}, M::Int)::Int sumto(arr, M, 1) end
+function sumto(arr::Array{Int}, M::Int, T::Int)::Int
     N = length(arr)
 
     for i in 1:N
         remain = M - arr[i]
-        for j in (i + 1):N
-            if arr[j] == remain return arr[i] * remain end
+        if T == 1
+            for j in (i + 1):N
+                if arr[j] == remain return arr[i] * remain end
+            end
+        else
+            prod = sumto(arr[i:end], remain, T - 1)
+            if prod > 0 return arr[i] * prod end
         end
     end
 
-    return -1
+    return -1 
 end
 
+twoprod = sumto(inputs, 2020)
+threeprod = sumto(inputs, 2020, 2)
