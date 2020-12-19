@@ -1,6 +1,6 @@
 using DelimitedFiles
 
-inputs = readdlm("src/files/dayoneinput.txt", '\n', Int)
+inputs = readdlm("src/files/dayone.txt", '\n', Int)
 
 """
 Checks if (T + 1) numbers in arr sum to M and returns their product
