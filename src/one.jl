@@ -10,14 +10,15 @@ function sumto(arr::Array{Int}, M::Int, T::Int)::Int
     N = length(arr)
 
     for i in 1:N
-        remain = M - arr[i]
+        remaining = M - arr[i]
+
         if T == 1
             for j in (i + 1):N
-                if arr[j] == remain return arr[i] * remain end
+                if arr[j] == remaining return arr[i] * remaining end
             end
         else
-            prod = sumto(arr[i:end], remain, T - 1)
-            if prod > 0 return arr[i] * prod end
+            currentproduct = sumto(arr[i:end], remain, T - 1)
+            if currentproduct > 0 return arr[i] * currentproduct end
         end
     end
 
