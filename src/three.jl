@@ -1,7 +1,6 @@
-using DelimitedFiles, Base
+using Base
 
 # Define a Int matrix that allows for horizontal overindexing
-
 struct Trees <: AbstractMatrix{Int} 
     data::Matrix{Int}
 end
@@ -18,9 +17,9 @@ end
 
 # Problem
 
-tree_string = readdlm("src/files/daythree.txt", '\n', String)
+tree_string = readlines("src/files/daythree.txt")
 
-function treestomatrix(trees::Array{String,2})::Trees
+function treestomatrix(trees::Vector{String})::Trees
     parsetree(tree) = [ch == '.' ? 0 : 1 for ch in tree]
     return Trees(vcat(parsetree.(trees)'...))
 end

@@ -1,6 +1,4 @@
-using DelimitedFiles
-
-inputs = readdlm("src/files/dayone.txt", '\n', Int)
+inputs = parse.(Int, readlines("src/files/dayone.txt"))
 
 """
 Checks if (T + 1) numbers in arr sum to M and returns their product
@@ -17,7 +15,7 @@ function sumto(arr::Array{Int}, M::Int, T::Int)::Int
                 if arr[j] == remaining return arr[i] * remaining end
             end
         else
-            currentproduct = sumto(arr[i:end], remain, T - 1)
+            currentproduct = sumto(arr[i:end], remaining, T - 1)
             if currentproduct > 0 return arr[i] * currentproduct end
         end
     end
@@ -27,3 +25,4 @@ end
 
 twoprod = sumto(inputs, 2020)
 threeprod = sumto(inputs, 2020, 2)
+

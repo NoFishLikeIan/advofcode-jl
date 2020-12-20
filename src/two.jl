@@ -1,6 +1,4 @@
-using DelimitedFiles
-
-pwdb = readdlm("src/files/daytwo.txt", '\n', String)
+pwdb = readlines("src/files/daytwo.txt")
 
 nonempty(arr) = [s for s in arr if length(s) > 0]
 
