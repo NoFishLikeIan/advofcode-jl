@@ -1,5 +1,3 @@
-rawrules = readlines("src/files/dayseven.txt")
-
 singular(cl) = rstrip(cl, 's')
 
 function parserule(rule)
@@ -26,16 +24,22 @@ function bagpaths!(currentset::Set, bagrules::Dict, lookfor::AbstractString)
     for bag ∈ hasbag bagpaths!(currentset, bagrules, bag) end
 end
 
-countin(bagrules::Dict, findinside::AbstractString) = sum(count * countin(bagrules, color) for (color, count) in get(bagrules, findinside, Dict())) # TODO: Nesting not working
+function countin(bagrules::Dict, findinside::AbstractString)
+    inside = get(bagrules, findinside, Dict())
+    if isempty(inside) return 0 end
 
+    return sum(count * (1 + countin(bagrules, color)) for (color, count) in inside)
+end
+
+rawrules = readlines("src/files/dayseven.txt")
+mybag = "shiny gold bag"
 
 bagrules = Dict(parserule.(rawrules))
 
 paths = Set{AbstractString}()
-bagpaths!(paths, bagrules, "shiny gold bag")
+bagpaths!(paths, bagrules, mybag)
 total = length(paths)
 
-nestcount = 0
-countin(bagrules, "shiny gold bag")
+nestedbagsN = countin(bagrules, mybag)
 
 
