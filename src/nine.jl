@@ -30,23 +30,32 @@ end
 
 ispossiblesum(seq, n) = findsum(seq, n)[1] > 0
 
-sequence = parse.(Int, readlines("src/files/daynine.txt"))
 
 function findfirstnonvalid(sequence, shift)
     N = length(sequence)
-    isnotvalid = n -> !ispossiblesum(sequence[n - prev:n - 1], sequence[n])
+    isnotvalid = n -> !ispossiblesum(sequence[n - shift:n - 1], sequence[n])
     idx = findfirst(isnotvalid, (shift + 1):N) + shift
 
     return idx
 end
 
-notsum = sequence[findfirstnonvalid(sequence, 25)]
-
-function contrangesumto!(sequence, target)
+function findcontsum(sequence, target)
     N = length(sequence)
     
     for (j, x) in enumerate(sequence)
-        rest = target - x
-        
+        contsum = 0
+        for (i, y) in enumerate(sequence[j:end])
+            contsum += y
+            if contsum == target return (j, i + j - 1)
+            elseif contsum > target break end
+        end
     end
 end
+
+sequence = parse.(Int, readlines("src/files/daynine.txt"))
+
+notsum = sequence[findfirstnonvalid(sequence, 25)]
+lower, upper = findcontsum(sequence, notsum)
+
+contsum = sequence[lower:upper]
+result = maximum(contsum) + minimum(contsum)
